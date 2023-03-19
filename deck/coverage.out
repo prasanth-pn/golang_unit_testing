@@ -1,0 +1,6 @@
+mode: set
+deck/main.go:7.13,11.2 2 0
+deck/main.go:12.21,16.33 4 1
+deck/main.go:16.33,17.36 1 1
+deck/main.go:17.36,20.4 1 1
+deck/main.go:22.2,22.14 1 1

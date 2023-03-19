@@ -1,6 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"io"
+	"os"
+	"strings"
 	"testing"
 )
 
@@ -33,25 +37,60 @@ func Test_isPrime(t *testing.T) {
 
 }
 
-// func Test_prompt(t *testing.T){
-// //save a copy of os.Stdout
-// 	oldOut:=os.Stdout
+func Test_prompt(t *testing.T) {
+	//save a copy of os.Stdout
+	oldOut := os.Stdout
 
-// 	//create a  read and write pipe
-// 	r,w,_:=os.Pipe()
-// 	//set os.Stdout to out write pipe
-// 	os.Stdout=w
-// 	prompt()
-// _,=w.Close()
-// //reset os.Stdout to what it was before
-// os.Stdout=oldOut
+	//create a  read and write pipe
+	r, w, _ := os.Pipe()
+	//set os.Stdout to our write pipe
+	os.Stdout = w
+	prompt()
+	//close our writer
+	_ = w.Close()
+	// reset os.Stdout to what it was before
+	os.Stdout = oldOut
 
-// //read the output of out prompt () func from our read pipe
-// out,_:=io.RadAll(r)
-// //perform our test
+	// read the output of out prompt () func from our read pipe
+	out, _ := io.ReadAll(r)
+	//perform our test
+	//t.Errorf("how are you f%sf", out)
 
-// if string (out)!="->"{
-// 	t.Errorf()
-// }
+	if string(out) != "->" {
+		t.Errorf("incorrect prompt ; expected -> but got %s", string(out))
+	}
 
-// }
+}
+func Test_intro(t *testing.T) {
+	//save a copy of os.Stdout
+	oldOut := os.Stdout
+
+	//create a  read and write pipe
+	r, w, _ := os.Pipe()
+	//set os.Stdout to our write pipe
+	os.Stdout = w
+	intro()
+	//close our writer
+	_ = w.Close()
+	// reset os.Stdout to what it was before
+	os.Stdout = oldOut
+
+	// read the output of out prompt () func from our read pipe
+	out, _ := io.ReadAll(r)
+	//perform our test
+	//t.Errorf("how are you f%sf", out)
+
+	if !strings.Contains(string(out), "Enter a whole number") {
+		t.Errorf("intro text not correct; but got %s", string(out))
+	}
+
+}
+func Test_checkNumbers(t *testing.T) {
+	input := strings.NewReader("7")
+	reader := bufio.NewScanner(input)
+	res, _ := checkNumbers(reader)
+	if !strings.EqualFold(res, "7 is a prime number") {
+		t.Error("incorrect value returned; got ", res)
+	}
+
+}

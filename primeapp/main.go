@@ -63,7 +63,7 @@ func intro() {
 	prompt()
 }
 func prompt() {
-	fmt.Println("-->")
+	fmt.Print("->")
 }
 func isPrime(n int) (bool, string) {
 	//0 and 1 are not prime
@@ -84,3 +84,4 @@ func isPrime(n int) (bool, string) {
 	return true, fmt.Sprintf("%d is a prime number", n)
 
 }
+
