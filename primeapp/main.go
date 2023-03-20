@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -16,7 +17,7 @@ func main() {
 	//create a channel to indicate when the user wants to quit
 	doneChan := make(chan bool)
 	//start a gorutine to read user input and run program
-	go readUserInput(doneChan)
+	go readUserInput(os.Stdin, doneChan)
 	//block  utill the donChan gets a value
 	<-doneChan
 	//close the channel
@@ -25,8 +26,8 @@ func main() {
 	fmt.Println("good bye brother")
 
 }
-func readUserInput(doneChan chan bool) {
-	scanner := bufio.NewScanner(os.Stdin)
+func readUserInput(in io.Reader, doneChan chan bool) {
+	scanner := bufio.NewScanner(in)
 	for {
 		res, done := checkNumbers(scanner)
 		if done {
@@ -52,7 +53,6 @@ func checkNumbers(scanner *bufio.Scanner) (string, bool) {
 	}
 	_, msg := isPrime(numTocheck)
 	return msg, false
-
 }
 
 func intro() {
@@ -84,4 +84,3 @@ func isPrime(n int) (bool, string) {
 	return true, fmt.Sprintf("%d is a prime number", n)
 
 }
-
